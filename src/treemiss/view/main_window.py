@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from ..model.tree_part import PartType
 
 class MainWindow(tk.Tk):
     def __init__(self):
@@ -17,9 +18,10 @@ class MainWindow(tk.Tk):
         ttk.Label(left_panel, text="Statistics").pack(pady=10)
 
         # Center panel for simulation display
-        center_panel = ttk.Frame(main_frame)
-        center_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        ttk.Label(center_panel, text="Simulation Display").pack(pady=10)
+        self.center_panel = ttk.Frame(main_frame)
+        self.center_panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        self.canvas = tk.Canvas(self.center_panel, bg="white")
+        self.canvas.pack(fill=tk.BOTH, expand=True)
 
         # Right panel for statistics
         right_panel = ttk.Frame(main_frame, width=200)
@@ -37,6 +39,21 @@ class MainWindow(tk.Tk):
         ttk.Button(control_panel, text="Save").pack(side=tk.LEFT, padx=5, pady=5)
         ttk.Button(control_panel, text="Load").pack(side=tk.LEFT, padx=5, pady=5)
         ttk.Button(control_panel, text="Menu").pack(side=tk.RIGHT, padx=5, pady=5)
+
+    def draw_simulation(self, simulation):
+        self.canvas.delete("all")
+        for tree in simulation.trees:
+            for part in tree.parts:
+                x1 = part.x - part.size / 2
+                y1 = part.y - part.size / 2
+                x2 = part.x + part.size / 2
+                y2 = part.y + part.size / 2
+                if part.part_type == PartType.ROOT:
+                    self.canvas.create_rectangle(x1, y1, x2, y2, fill="brown")
+                elif part.part_type == PartType.BRANCH:
+                    self.canvas.create_rectangle(x1, y1, x2, y2, fill="saddlebrown")
+                elif part.part_type == PartType.LEAF:
+                    self.canvas.create_oval(x1, y1, x2, y2, fill="green")
 
 if __name__ == "__main__":
     app = MainWindow()

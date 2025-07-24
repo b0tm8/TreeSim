@@ -14,7 +14,7 @@ class Simulation:
         self.water = [100] * self.world_width     # Example initial water
 
         # Create some initial trees
-        self.trees.append(Tree())
+        self.trees.append(Tree(self.world_width / 2, self.world_height / 2))
 
     def update(self):
         # Update all trees
