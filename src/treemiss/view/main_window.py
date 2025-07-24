@@ -49,10 +49,11 @@ class MainWindow(tk.Tk):
         self.canvas.delete("all")
         for tree in simulation.trees:
             for part in tree.parts:
-                x1 = part.x - part.size / 2
-                y1 = part.y - part.size / 2
-                x2 = part.x + part.size / 2
-                y2 = part.y + part.size / 2
+                width = part.length / 10
+                x1 = part.x - width / 2
+                y1 = part.y - width / 2
+                x2 = part.x + width / 2
+                y2 = part.y + width / 2
                 if part.part_type == PartType.ROOT:
                     self.canvas.create_rectangle(x1, y1, x2, y2, fill="brown")
                 elif part.part_type == PartType.BRANCH:
