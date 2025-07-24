@@ -3,10 +3,12 @@ from tkinter import ttk
 from ..model.tree_part import PartType
 
 class MainWindow(tk.Tk):
-    def __init__(self):
+    def __init__(self, simulation):
         super().__init__()
+        self.simulation = simulation
         self.title("TreeSim")
         self.geometry("1200x800")
+        self.simulation_running = False
 
         # Main frame
         main_frame = ttk.Frame(self)
@@ -33,9 +35,12 @@ class MainWindow(tk.Tk):
         control_panel.pack(side=tk.BOTTOM, fill=tk.X)
 
         # Control buttons
-        ttk.Button(control_panel, text="Start").pack(side=tk.LEFT, padx=5, pady=5)
-        ttk.Button(control_panel, text="Stop").pack(side=tk.LEFT, padx=5, pady=5)
-        ttk.Button(control_panel, text="Reset").pack(side=tk.LEFT, padx=5, pady=5)
+        self.start_button = ttk.Button(control_panel, text="Start", command=self.start_simulation)
+        self.start_button.pack(side=tk.LEFT, padx=5, pady=5)
+        self.stop_button = ttk.Button(control_panel, text="Stop", command=self.stop_simulation, state=tk.DISABLED)
+        self.stop_button.pack(side=tk.LEFT, padx=5, pady=5)
+        self.reset_button = ttk.Button(control_panel, text="Reset", command=self.reset_simulation)
+        self.reset_button.pack(side=tk.LEFT, padx=5, pady=5)
         ttk.Button(control_panel, text="Save").pack(side=tk.LEFT, padx=5, pady=5)
         ttk.Button(control_panel, text="Load").pack(side=tk.LEFT, padx=5, pady=5)
         ttk.Button(control_panel, text="Menu").pack(side=tk.RIGHT, padx=5, pady=5)
@@ -55,6 +60,23 @@ class MainWindow(tk.Tk):
                 elif part.part_type == PartType.LEAF:
                     self.canvas.create_oval(x1, y1, x2, y2, fill="green")
 
+    def start_simulation(self):
+        self.simulation_running = True
+        self.start_button.config(state=tk.DISABLED)
+        self.stop_button.config(state=tk.NORMAL)
+
+    def stop_simulation(self):
+        self.simulation_running = False
+        self.start_button.config(state=tk.NORMAL)
+        self.stop_button.config(state=tk.DISABLED)
+
+    def reset_simulation(self):
+        self.simulation.initialize()
+        self.draw_simulation(self.simulation)
+
 if __name__ == "__main__":
-    app = MainWindow()
+    from ..model.simulation import Simulation
+    sim = Simulation(800, 600)
+    sim.initialize()
+    app = MainWindow(sim)
     app.mainloop()

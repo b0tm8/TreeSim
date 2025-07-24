@@ -32,5 +32,20 @@ class TestSimulation(unittest.TestCase):
         sim.update()
         self.assertEqual(sim.trees[0].parts[0].memory[0], 15)
 
+    def test_sunlight_and_water(self):
+        sim = Simulation(100, 100)
+        sim.initialize()
+        tree = sim.trees[0]
+        root = tree.parts[0]
+        leaf = tree.parts[1]
+
+        # Set leaf to be perpendicular to sunlight
+        leaf.angle = 90
+
+        sim.update()
+
+        self.assertGreater(leaf.energy, 0)
+        self.assertGreater(root.water, 0)
+
 if __name__ == '__main__':
     unittest.main()

@@ -11,6 +11,10 @@ class Tree:
         root = TreePart(PartType.ROOT, self, x=x, y=y, angle=-90, size=10)
         leaf = TreePart(PartType.LEAF, self, x=x, y=y - 10, angle=90, size=10)
 
+        # Add default genome
+        root.code = [("GROW",)]
+        leaf.code = [("GROW",)]
+
         root.children.append(leaf)
         leaf.parent = root
 
