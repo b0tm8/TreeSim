@@ -23,6 +23,7 @@ class Tree:
 
     def update(self):
         for part in self.parts:
+            print("parts")
             part.execute_instruction()
 
     def get_part_at(self, x, y):

@@ -68,3 +68,4 @@ class TreePart:
             self.part_type = new_type
 
         self.program_counter += 1
+        self.program_counter %= len(self.code)
