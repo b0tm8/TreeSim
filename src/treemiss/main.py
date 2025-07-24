@@ -1,5 +1,5 @@
-from view.main_window import MainWindow
-from model.simulation import Simulation
+from .view.main_window import MainWindow
+from .model.simulation import Simulation
 
 def update_simulation(app, sim):
     sim.update()
