@@ -6,7 +6,7 @@ class PartType(Enum):
     LEAF = 3
 
 class TreePart:
-    def __init__(self, part_type, tree, memory_size=64, x=0, y=0, angle=0, size=1):
+    def __init__(self, part_type, tree, memory_size=64, x=0, y=0, angle=0, length=1):
         self.part_type = part_type
         self.tree = tree
         self.memory = [0] * memory_size
@@ -17,7 +17,7 @@ class TreePart:
         self.x = x
         self.y = y
         self.angle = angle
-        self.size = size
+        self.length = length
         self.parent = None
         self.children = []
 
@@ -58,14 +58,14 @@ class TreePart:
                 self.program_counter = addr
                 return
         elif opcode == "GROW":
-            self.size += 1
+            self.length += 1
         elif opcode == "SPLIT":
             angle = self.memory[instruction[1]]
             self.tree.add_part(self, self.part_type, angle)
+            self.memory[instruction[1]] += 10
         elif opcode == "CHANGE":
             new_type_val = self.memory[instruction[1]]
             new_type = PartType(new_type_val)
             self.part_type = new_type
 
         self.program_counter += 1
-        self.program_counter %= len(self.code)

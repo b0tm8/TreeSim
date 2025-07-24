@@ -25,13 +25,13 @@ class Simulation:
             for y in range(self.world_height):
                 part = self.get_part_at(x, y)
                 if part and part.part_type == PartType.LEAF:
-                    part.energy += sunlight * part.size * abs(math.sin(math.radians(part.angle)))
+                    part.energy += sunlight * part.length * abs(math.sin(math.radians(part.angle)))
                     sunlight *= 0.5  # Dim the sunlight for parts below
 
         for tree in self.trees:
             for part in tree.parts:
                 if part.part_type == PartType.ROOT:
-                    part.water += part.size * (part.y / self.world_height)
+                    part.water += part.length * (part.y / self.world_height)
 
         # Update all trees
         for tree in self.trees:
