@@ -12,8 +12,8 @@ class Tree:
         leaf = TreePart(PartType.LEAF, self, x=x, y=y - 10, angle=90, length=10)
 
         # Add default genome
-        root.code = [("GROW",)] * 10 + [("SPLIT", 0)]
-        leaf.code = [("GROW",)] * 10 + [("SPLIT", 0)]
+        root.code = [("GROW",)] * 10 + [("SPLIT", 45)]
+        leaf.code = [("GROW",)] * 10 + [("SPLIT", 45)]
         root.memory[0] = 0
         leaf.memory[0] = 0
 
